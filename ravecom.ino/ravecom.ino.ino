@@ -22,7 +22,7 @@ void setup()
     sleep(999999);   
   }  
   getLocalAddress();
-  printScreen("I am " + String(localAddress));
+  printScreen("Welcome to RaveCom 3000 #" + String(localAddress));
   LoRa.onReceive(onReceive);
   LoRa.receive();
 }
@@ -64,7 +64,7 @@ bool initBluetooth()
 
 void loop()
 {  
-  renderScreen();
+  renderScreen();  
   if (millis() - lastSendTime > interval)
   {
     String message = "Hello World!";   // send a message
@@ -91,7 +91,6 @@ void sendMessage(String outgoing)
 void printScreen(String message) {
     Serial.println(message);
     msgString += message;
-//    renderScreen();
 }
 
 void renderScreen() {
@@ -99,9 +98,8 @@ void renderScreen() {
   Heltec.display->clear();
   Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
   Heltec.display->setFont(ArialMT_Plain_10);    
-  Heltec.display->drawString(0, 0, msgString);    
+  Heltec.display->drawStringMaxWidth(0, 0, 128, msgString);    
   Heltec.display->display();
-  delay(10);
   msgString = "";
 }
 
@@ -148,5 +146,6 @@ void onReceive(int packetSize)
   msg += " M: " + incoming;
   msg += " r: " + String(LoRa.packetRssi());
   msg += " s: " + String(LoRa.packetSnr());
+  msg += " t: " + String(millis());
   printScreen(msg); 
 }
