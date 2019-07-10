@@ -92,7 +92,7 @@ void sendMessage(String outgoing)
 
 void printScreen(String message) {
     Serial.println(message);
-    msgString += message + '\n';
+    msgString += message;
 }
 
 void renderScreen() {
@@ -139,5 +139,5 @@ void onReceive(int packetSize)
   msg += " r: " + String(LoRa.packetRssi());
   msg += " s: " + String(LoRa.packetSnr());  
   printScreen(msg); 
-  printScreen("t: " + millis());  
+  printScreen("               t: " + String(millis()));  
 }
