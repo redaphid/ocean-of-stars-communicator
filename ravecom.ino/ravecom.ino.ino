@@ -17,7 +17,8 @@ void setup()
 {
    //WIFI Kit series V1 not support Vext control
   Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
-//  LoRa.setSpreadingFactor(12);
+  LoRa.setSpreadingFactor(11);
+  LoRa.setTxPowerMax(20);
   if(!initBluetooth()) {    
     sleep(999999);   
   }  
@@ -57,7 +58,6 @@ bool initBluetooth()
     printScreen("Failed to enable bluedroid");
     return false;
   }
-  printScreen("bt enabled");
   return true;
  
 }
@@ -77,7 +77,6 @@ void loop()
 
 void sendMessage(String outgoing)
 {
-  Serial.println("sending: " + outgoing);
   LoRa.beginPacket();                   // start packet
   LoRa.write(destination);              // add destination address
   LoRa.write(localAddress);             // add sender address
@@ -119,6 +118,7 @@ void onReceive(int packetSize)
 
   String incoming = "";                 // payload of packet
 
+
   while (LoRa.available())             // can't use readString() in callback
   {
     incoming += (char)LoRa.read();      // add bytes one by one
@@ -130,22 +130,12 @@ void onReceive(int packetSize)
     return;                             // skip rest of function
   }
 
-  // if the recipient isn't this device or broadcast,
-  if (recipient != localAddress && recipient != 0xFF)
-  {
-    printScreen("This message is not for me.");
-    return;                             // skip rest of function
-  }
-
   // if message is for this device, or broadcast, print details:
-//  String msg = "recd";
   String msg = "";
-  msg += " f:" + String(sender, HEX);
-  msg += " t:" + String(recipient, HEX);
   msg += " ID: " + String(incomingMsgId);
-  msg += " M: " + incoming;
+  msg += " t: ";
+  msg += (float)millis() / 1000 / 60;  
   msg += " r: " + String(LoRa.packetRssi());
   msg += " s: " + String(LoRa.packetSnr());
-  msg += " t: " + String(millis());
   printScreen(msg); 
 }
