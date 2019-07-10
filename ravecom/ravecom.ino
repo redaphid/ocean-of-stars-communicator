@@ -79,7 +79,7 @@ void loop()
 
 void sendMessage(String outgoing)
 {
-  
+  digitalWrite(LED, LOW);
   LoRa.beginPacket();                   // start packet
   LoRa.write(destination);              // add destination address
   LoRa.write(localAddress);             // add sender address
@@ -140,4 +140,5 @@ void onReceive(int packetSize)
   msg += " s: " + String(LoRa.packetSnr());  
   printScreen(msg); 
   printScreen("               t: " + String(millis()));  
+  digitalWrite(LED, HIGH);
 }
