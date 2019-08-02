@@ -67,9 +67,8 @@ void loop()
   renderScreen();  
   if (millis() - lastSendTime > interval)
   {
-    String message = "Hello World!";   // send a message
     int before = millis();    
-    sendMessage(message);
+    sendMessage(outgoing);
     lastSendTime = millis();            // timestamp the message
     Serial.println("send time: " + String(millis() - before));
     interval = random(5000) + 1000;     // 2-3 seconds    
@@ -97,6 +96,7 @@ void printScreen(String message) {
 
 void renderScreen() {
   if(msgString == "") return;
+  outgoing = msgString;
   Heltec.display->clear();
   Heltec.display->setTextAlignment(TEXT_ALIGN_LEFT);
   Heltec.display->setFont(ArialMT_Plain_10);    
@@ -138,6 +138,7 @@ void onReceive(int packetSize)
   msg += " ID: " + String(incomingMsgId);  
   msg += " r: " + String(LoRa.packetRssi());
   msg += " s: " + String(LoRa.packetSnr());  
+  msg += " m: " + String(incoming);
   printScreen(msg); 
   printScreen("               t: " + String(millis()));  
   digitalWrite(LED, HIGH);
