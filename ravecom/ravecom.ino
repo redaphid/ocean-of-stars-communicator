@@ -1,6 +1,7 @@
 #include "heltec.h"
-#include "esp_bt_main.h"
-#include "esp_bt_device.h"
+#include <BLEDevice.h>
+#include <BLEUtils.h>
+#include <BLEServer.h>
 #define BAND    915E6  //you can set band here directly,e.g. 868E6,915E6
 #define SPREADING_FACTOR 10
   
