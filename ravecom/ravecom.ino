@@ -5,7 +5,7 @@
 #include "esp_system.h"
 
 #define BAND 915E6 //you can set band here directly,e.g. 868E6,915E6
-#define SPREADING_FACTOR 10
+#define SPREADING_FACTOR 11
 
 #define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
@@ -123,14 +123,14 @@ void sendLora() {
   LoRa.write(localAddress);        // add sender address
   LoRa.write(msgCount);            // add message ID
   LoRa.write(outgoing.length());   // add payload length
-  LoRa.print(outgoing.c_str());            // add payload
+  LoRa.print(String(outgoing.c_str()));            // add payload
   LoRa.endPacket();                // finish packet and send it
   msgCount = (msgCount + 1 % 256); // increment message ID
 }
 
 void sendSerial(int time) {
   Serial.print("sent: ");
-  Serial.print(outgoing.c_str());
+  Serial.print(String(outgoing.c_str()));
 
   Serial.print(" addr: ");
   Serial.print(localAddress);
