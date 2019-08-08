@@ -7,13 +7,15 @@
                 "C:\\Users\\redaphid\\Documents\\ArduinoData\\packages\\Heltec-esp32\\hardware\\esp32\\0.0.2-rc1\\**",
                 "${workspaceFolder}/**",
                 "${HOMEPATH}/Documents/Arduino/libraries/*",
-                "C:\\Program Files\\WindowsApps\\ArduinoLLC.ArduinoIDE_1.8.21.0_x86__mdqgnx93n4wtt\\libraries\\**"     
+                "D:\\tools\\Arduino\\libraries\\*",
+                "C:\\Users\\redaphid\\AppData\\Local\\Arduino15\\packages\\Heltec-esp32\\hardware\\esp32\\0.0.2-rc1\\**",
+                "C:\\Users\\redaphid\\AppData\\Local\\Arduino15\\packages\\Heltec-esp32\\tools\\**"
             ],
             "browse": {
                 "path": [
                     "${workspaceFolder}/**",
                     "${HOMEPATH}/Documents/Arduino/libraries/*",
-                    "C:\\Program Files\\WindowsApps\\ArduinoLLC.ArduinoIDE_1.8.21.0_x86__mdqgnx93n4wtt\\libraries\\**"                    
+                    "D:\\tools\\Arduino\\libraries\\*"
                 ]
             },
             "defines": [
