@@ -1,0 +1,32 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "C:\\Users\\redaphid\\Documents\\ArduinoData\\packages\\Heltec-esp32\\tools\\**",
+                "C:\\Users\\redaphid\\Documents\\ArduinoData\\packages\\Heltec-esp32\\hardware\\esp32\\0.0.2-rc1\\**",
+                "${workspaceFolder}/**",
+                "${HOMEPATH}/Documents/Arduino/libraries/*",
+                "C:\\Program Files\\WindowsApps\\ArduinoLLC.ArduinoIDE_1.8.21.0_x86__mdqgnx93n4wtt\\libraries\\**"     
+            ],
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**",
+                    "${HOMEPATH}/Documents/Arduino/libraries/*",
+                    "C:\\Program Files\\WindowsApps\\ArduinoLLC.ArduinoIDE_1.8.21.0_x86__mdqgnx93n4wtt\\libraries\\**"                    
+                ]
+            },
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "/usr/bin/gcc",
+            "cStandard": "c11",
+            "cppStandard": "c++17",
+            "intelliSenseMode": "clang-x64",
+            "forcedInclude": []
+        }
+    ],
+    "version": 4
+}
