@@ -23,7 +23,6 @@ int interval = 2000;   // interval between sends
 
 void setup()
 {
-  //WIFI Kit series V1 not support Vext control
   Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
   LoRa.setSpreadingFactor(SPREADING_FACTOR);
   LoRa.setTxPowerMax(20);
@@ -189,10 +188,9 @@ void onReceive(int packetSize)
   if (incomingLength != incoming.length()) // check length for error
   {
     printScreen("error: message length does not match length");
-    return; // skip rest of function
+    return;
   }
-
-  // if message is for this device, or broadcast, print details:
+  
   String msg = "";
   msg += " ID: " + String(incomingMsgId);
   msg += " r: " + String(LoRa.packetRssi());
