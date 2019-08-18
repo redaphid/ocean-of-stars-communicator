@@ -10,29 +10,22 @@
 #define SERVICE_UUID "4fafc201-1fb5-459e-8fcc-c5c9c331914b"
 #define CHARACTERISTIC_UUID "beb5483e-36e1-4688-b7f5-ea07361b26a8"
 
-#define MAX_INTERVAL 5000
-#define MIN_INTERVAL 1000
-
-byte localAddress;       // address of this device
+#define INTERVAL 5000
 
 std::string outgoing; // outgoing message
 String msgString = "";
 byte msgCount = 0;     // count of outgoing messages
 long lastSendTime = 0; // last send time
-int interval = 2000;   // interval between sends
 
 void setup()
 {
   Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
   LoRa.setSpreadingFactor(SPREADING_FACTOR);
   LoRa.setTxPowerMax(20);
-  getLocalAddress();
 
   initBluetooth();
 
-  printScreen("Welcome to RaveCom 3000 #" + String(localAddress));
-  LoRa.onReceive(onReceive);
-  LoRa.receive();
+  printScreen("Dispair, humans, for The Mothership has arrived.");
 }
 
 void initScreen()
@@ -58,22 +51,10 @@ class BLECallback : public BLECharacteristicCallbacks
   }
 };
 
-void getLocalAddress()
-{
-  uint8_t mac[6];
-  esp_efuse_mac_get_default(mac);
-  localAddress = 0;
-  for (int i = 0; i < 6; i++)
-  {
-    localAddress = ((int)localAddress + (int)mac[i]) % 256;
-  }
-}
-
 bool initBluetooth()
 {
 
-  getLocalAddress();
-  BLEDevice::init("ravecom-" + localAddress);
+  BLEDevice::init("The Mothership");
   BLEServer *pServer = BLEDevice::createServer();
   BLEService *pService = pServer->createService(SERVICE_UUID);
 
@@ -92,11 +73,9 @@ bool initBluetooth()
 void loop()
 {
   renderScreen();
-  if (millis() - lastSendTime > interval)
+  if (millis() - lastSendTime > INTERVAL)
   {
-    sendMessage();   
-    interval = random(MAX_INTERVAL) + MIN_INTERVAL;
-    LoRa.receive();                 // go back into receive mode
+    sendMessage();                   // go back into receive mode
   }
 }
 
@@ -109,18 +88,15 @@ void sendMessage()
     auto timeItTook = lastSendTime - before;
     sendSerial(timeItTook);
     
-    if(timeItTook > MIN_INTERVAL) {
+    if(timeItTook > INTERVAL) {
       Serial.println("Message took too long to send. Resetting the message.");
       outgoing = "err: msg-length";
-    }
-    
+    } 
 }
 
 void sendLora() {
   digitalWrite(LED, LOW);
   LoRa.beginPacket();              // start packet
-  LoRa.write(localAddress);        // add sender address
-  LoRa.write(msgCount);            // add message ID
   LoRa.write(outgoing.length());   // add payload length
   LoRa.print(String(outgoing.c_str()));            // add payload
   LoRa.endPacket();                // finish packet and send it
@@ -130,9 +106,6 @@ void sendLora() {
 void sendSerial(int time) {
   Serial.print("sent: ");
   Serial.print(String(outgoing.c_str()));
-
-  Serial.print(" addr: ");
-  Serial.print(localAddress);
 
   Serial.print(" msg#: ");
   Serial.print(msgCount);
@@ -165,38 +138,4 @@ void renderScreen()
 void printScreen()
 {
   printScreen("");
-}
-
-void onReceive(int packetSize)
-{
-  if (packetSize == 0)
-    return; // if there's no packet, return
-
-  // read packet header bytes:
-  int recipient = LoRa.read();       // recipient address
-  byte sender = LoRa.read();         // sender address
-  byte incomingMsgId = LoRa.read();  // incoming msg ID
-  byte incomingLength = LoRa.read(); // incoming msg length
-
-  String incoming = ""; // payload of packet
-
-  while (LoRa.available()) // can't use readString() in callback
-  {
-    incoming += (char)LoRa.read(); // add bytes one by one
-  }
-
-  if (incomingLength != incoming.length()) // check length for error
-  {
-    printScreen("error: message length does not match length");
-    return; // skip rest of function
-  }
-
-  String msg = "";
-  msg += " ID: " + String(incomingMsgId);
-  msg += " r: " + String(LoRa.packetRssi());
-  msg += " s: " + String(LoRa.packetSnr());
-  msg += " m: " + String(incoming);
-  printScreen(msg);
-  printScreen("               t: " + String(millis()));
-  digitalWrite(LED, HIGH);
 }
