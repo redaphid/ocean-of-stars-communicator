@@ -13,16 +13,17 @@
 #define INTERVAL 5000
 
 String msgString = "";
-
+int localAddress = 0;
 void setup()
 {
   Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
   LoRa.setSpreadingFactor(SPREADING_FACTOR);
   LoRa.setTxPowerMax(20);
-
-  initBluetooth();
   getLocalAddress();
+
+  initBluetooth();  
   printScreen("Drone #" + String(localAddress) + " has awakened.");
+  renderScreen();
   LoRa.onReceive(onReceive);
   LoRa.receive();
 }
