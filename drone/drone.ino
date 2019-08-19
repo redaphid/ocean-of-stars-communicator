@@ -13,7 +13,10 @@
 #define INTERVAL 5000
 
 String msgString = "";
+String incoming = "";
+
 int localAddress = 0;
+BLECharacteristic *pCharacteristic;
 void setup()
 {
   Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
@@ -64,24 +67,31 @@ void getLocalAddress()
 bool initBluetooth()
 {
 
-  getLocalAddress();
-  BLEDevice::init("drone-" + localAddress);
+  BLEDevice::init("Drone " + String(localAddress));
   BLEServer *pServer = BLEDevice::createServer();
   BLEService *pService = pServer->createService(SERVICE_UUID);
 
-  BLECharacteristic *pCharacteristic = pService->createCharacteristic(
+    pCharacteristic = pService->createCharacteristic(
       CHARACTERISTIC_UUID,
-      BLECharacteristic::PROPERTY_READ |
-          BLECharacteristic::PROPERTY_WRITE);
+      BLECharacteristic::PROPERTY_READ   |
+                      BLECharacteristic::PROPERTY_WRITE  |
+                      BLECharacteristic::PROPERTY_NOTIFY |
+                      BLECharacteristic::PROPERTY_INDICATE
+    );
 
   pCharacteristic->setCallbacks(new BLECallback());
   pService->start();
 
   BLEAdvertising *pAdvertising = pServer->getAdvertising();
+  pAdvertising->setMinPreferred(0x06);  // functions that help with iPhone connections issue
+  pAdvertising->setMinPreferred(0x12);
   pAdvertising->start();
 }
 
-void loop(){}
+
+void loop(){
+  renderScreen();
+}
 
 void printScreen(String message)
 {
@@ -91,6 +101,7 @@ void printScreen(String message)
 
 void renderScreen()
 {
+  digitalWrite(LED, LOW);
   if (msgString == "")
     return;
   Heltec.display->clear();
@@ -112,7 +123,7 @@ void onReceive(int packetSize)
     return;
 
   byte incomingLength = LoRa.read();
-  String incoming = "";
+  incoming = "";
 
   while (LoRa.available()){
     incoming += (char)LoRa.read();
@@ -130,7 +141,7 @@ void onReceive(int packetSize)
   msg += " m: " + String(incoming);
   printScreen(msg);
   printScreen("               t: " + String(millis()));
-  digitalWrite(LED, HIGH);
-  sleep(100);
-  digitalWrite(LED, LOW);
+  pCharacteristic->setValue((uint8_t*) incoming.c_str(), incoming.length());
+  pCharacteristic->notify();    
+  digitalWrite(LED, HIGH);  
 }
