@@ -1,4 +1,4 @@
-# RAVECOM-3000
+# Ocean of Stars Communicator
 
 ## Prerequisites
 
