@@ -67,7 +67,7 @@ void getLocalAddress()
 bool initBluetooth()
 {
 
-  BLEDevice::init("Drone " + String(localAddress));
+  BLEDevice::init(String("Drone " + String(localAddress)).c_str());
   BLEServer *pServer = BLEDevice::createServer();
   BLEService *pService = pServer->createService(SERVICE_UUID);
 
