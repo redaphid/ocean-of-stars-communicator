@@ -131,7 +131,7 @@ void onReceive(int packetSize)
 
   if (incomingLength != incoming.length())
   {
-    printScreen("error: message length does not match length");
+    printScreen("error: message length does not match length\n" + incoming);
     return;
   }
 
