@@ -16,10 +16,12 @@ String msgString = "";
 String incoming = "";
 
 int localAddress = 0;
+int msgCount = 1;
 BLECharacteristic *pCharacteristic;
 void setup()
 {
-  Heltec.begin(false /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
+  setCpuFrequencyMhz(80);
+  Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
   LoRa.setSpreadingFactor(SPREADING_FACTOR);  
   getLocalAddress();
 
@@ -47,8 +49,8 @@ class BLECallback : public BLECharacteristicCallbacks
 
     if (value.length() > 0)
     {
-      Serial.print("received bluetooth value: ");              
-      Serial.println(value.c_str());      
+      //Serial.print("received bluetooth value: ");              
+      //Serial.println(value.c_str());      
     }    
   }
 };
@@ -95,14 +97,13 @@ void loop(){
 
 void printScreen(String message)
 {
-  Serial.println(message);
+  //Serial.println(message);
   msgString += message;
 }
 
 void renderScreen()
 {
   digitalWrite(LED, LOW);
-  return;
   if (msgString == "")
     return;
   Heltec.display->clear();
@@ -120,6 +121,7 @@ void printScreen()
 
 void onReceive(int packetSize)
 {
+  digitalWrite(LED, HIGH);
   if (packetSize == 0)
     return;
 
@@ -137,12 +139,9 @@ void onReceive(int packetSize)
   }
 
   String msg = "";
-  msg += " r: " + String(LoRa.packetRssi());
-  msg += " s: " + String(LoRa.packetSnr());
-  msg += " m: " + String(incoming);
+  msg += "Drone #" + String(localAddress) + \
+  "                    Heard from mothership " + msgCount++ + "x";
   printScreen(msg);
-  printScreen("               t: " + String(millis()));
   pCharacteristic->setValue((uint8_t*) incoming.c_str(), incoming.length());
   pCharacteristic->notify();    
-  digitalWrite(LED, HIGH);  
 }

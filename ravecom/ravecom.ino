@@ -51,8 +51,8 @@ class BLECallback : public BLECharacteristicCallbacks
 
     if (value.length() > 0)
     {
-      Serial.print("received bluetooth value: ");              
-      Serial.println(value.c_str());      
+      //Serial.print("received bluetooth value: ");              
+      //Serial.println(value.c_str());      
     }
     outgoing = value;
   }
@@ -110,7 +110,7 @@ void sendMessage()
     sendSerial(timeItTook);
     
     if(timeItTook > MIN_INTERVAL) {
-      Serial.println("Message took too long to send. Resetting the message.");
+      //Serial.println("Message took too long to send. Resetting the message.");
       outgoing = "err: msg-length";
     }
     
@@ -128,25 +128,25 @@ void sendLora() {
 }
 
 void sendSerial(int time) {
-  Serial.print("sent: ");
-  Serial.print(String(outgoing.c_str()));
+  //Serial.print("sent: ");
+  //Serial.print(String(outgoing.c_str()));
 
-  Serial.print(" addr: ");
-  Serial.print(localAddress);
+  //Serial.print(" addr: ");
+  //Serial.print(localAddress);
 
-  Serial.print(" msg#: ");
-  Serial.print(msgCount);
+  //Serial.print(" msg#: ");
+  //Serial.print(msgCount);
 
-  Serial.print(" len: ");
-  Serial.print(outgoing.length());  
-  Serial.print(" time: ");
-  Serial.print(time);
-  Serial.println();  
+  //Serial.print(" len: ");
+  //Serial.print(outgoing.length());  
+  //Serial.print(" time: ");
+  //Serial.print(time);
+  //Serial.println();  
 }
 
 void printScreen(String message)
 {
-  Serial.println(message);
+  //Serial.println(message);
   msgString += message;
 }
 
