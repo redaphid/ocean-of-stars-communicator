@@ -19,6 +19,7 @@ long lastSendTime = 0; // last send time
 int interval = INTERVAL;
 void setup()
 {
+  setCpuFrequencyMhz(80);
   Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
   LoRa.setSpreadingFactor(SPREADING_FACTOR);
   LoRa.setTxPowerMax(20);

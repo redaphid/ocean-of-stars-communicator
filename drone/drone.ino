@@ -3,7 +3,6 @@
 #include <BLEUtils.h>
 #include <BLEServer.h>
 #include "esp_system.h"
-
 #define BAND 915E6 //you can se\t band here directly,e.g. 868E6,915E6
 #define SPREADING_FACTOR 11
 
@@ -21,7 +20,7 @@ BLECharacteristic *pCharacteristic;
 void setup()
 {
   setCpuFrequencyMhz(80);
-  Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
+  Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, false /*Serial Enable*/, false /*PABOOST Enable*/, BAND /*long BAND*/);
   LoRa.setSpreadingFactor(SPREADING_FACTOR);  
   getLocalAddress();
 
