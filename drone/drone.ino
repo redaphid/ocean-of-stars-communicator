@@ -19,9 +19,8 @@ int localAddress = 0;
 BLECharacteristic *pCharacteristic;
 void setup()
 {
-  Heltec.begin(true /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
-  LoRa.setSpreadingFactor(SPREADING_FACTOR);
-  LoRa.setTxPowerMax(20);
+  Heltec.begin(false /*DisplayEnable Enable*/, true /*Heltec.LoRa Disable*/, true /*Serial Enable*/, true /*PABOOST Enable*/, BAND /*long BAND*/);
+  LoRa.setSpreadingFactor(SPREADING_FACTOR);  
   getLocalAddress();
 
   initBluetooth();  
@@ -33,6 +32,7 @@ void setup()
 
 void initScreen()
 {
+  return;
   Heltec.display->init();
   Heltec.display->flipScreenVertically();
   Heltec.display->setFont(ArialMT_Plain_10);
@@ -102,6 +102,7 @@ void printScreen(String message)
 void renderScreen()
 {
   digitalWrite(LED, LOW);
+  return;
   if (msgString == "")
     return;
   Heltec.display->clear();
