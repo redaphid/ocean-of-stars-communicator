@@ -10,8 +10,8 @@
                 "D:\\tools\\Arduino\\libraries\\*",
                 "C:\\Users\\redaphid\\AppData\\Local\\Arduino15\\packages\\Heltec-esp32\\hardware\\esp32\\0.0.2-rc1\\**",
                 "C:\\Users\\redaphid\\AppData\\Local\\Arduino15\\packages\\Heltec-esp32\\tools\\**",
-                "/Users/redaphid/Library/Arduino15/packages/Heltec-esp32/hardware/esp32/0.0.2-rc1/**",
-                "/Users/redaphid/Library/Arduino15/packages/Heltec-esp32/tools/**"
+                "${HOMEPATH}/Library/Arduino15/packages/Heltec-esp32/hardware/esp32/0.0.2-rc1/**",
+                "${HOMEPATH}/Library/Arduino15/packages/Heltec-esp32/tools/**"
             ],
             "browse": {
                 "path": [
@@ -34,10 +34,10 @@
         {
             "name": "Mac",
             "includePath": [
-                "/Users/redaphid/Library/Arduino15/packages/Heltec-esp32/tools/**",
-                "/Users/redaphid/Library/Arduino15/packages/Heltec-esp32/hardware/esp32/0.0.2-rc1/**",
-                "/Users/redaphid/Library/Arduino15/packages/esp8266/tools/**",
-                "/Users/redaphid/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
+                "${HOMEPATH}/Library/Arduino15/packages/Heltec-esp32/tools/**",
+                "${HOMEPATH}/Library/Arduino15/packages/Heltec-esp32/hardware/esp32/0.0.2-rc1/**",
+                "${HOMEPATH}/Library/Arduino15/packages/esp8266/tools/**",
+                "${HOMEPATH}/Library/Arduino15/packages/esp8266/hardware/esp8266/2.5.2/**",
                 "${HOMEPATH}/Documents/Arduino/libraries/**"
             ],
             "forcedInclude": []
